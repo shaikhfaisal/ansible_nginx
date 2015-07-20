@@ -1,3 +1,4 @@
 ---
 language: bash
-script: cd _devel; make test;
+sudo: required
+script: cd _devel; make travis_ci;
