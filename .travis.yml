@@ -1,0 +1,3 @@
+---
+language: bash
+script: cd _devel; make test;
