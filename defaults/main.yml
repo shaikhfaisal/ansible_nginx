@@ -1,0 +1,9 @@
+---
+nginx_packages:
+  - nginx
+
+nginx_user: www-data
+nginx_group: adm
+
+nginx_wrk_procs: "{{ ansible_processor_count * ansible_processor_cores }}"
+nginx_wrk_conn: 1024

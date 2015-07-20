@@ -1,0 +1,10 @@
+---
+- hosts: '{{ hosts }}'
+  sudo: yes
+  pre_tasks:
+    - name: Update apt
+      apt: 
+        update_cache: yes
+  roles:
+    - ansible_nginx
+

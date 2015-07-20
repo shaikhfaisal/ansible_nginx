@@ -1,0 +1,28 @@
+---
+- name: Make sure that /var/www exists
+  file:
+    path: /var/www
+    state: directory
+    owner: www-data
+    group: adm
+    mode: 0755
+
+- name: Remove default nginx configuration files
+  file:
+    path: /etc/nginx/conf.d/{{ item }}
+    state: absent
+  with_items:
+    - 'default.conf'
+    - 'example_ssl.conf'
+  notify: reload nginx
+
+- name: Generate main nginx config file
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    mode: 0644
+    owner: root
+    group: root 
+    backup: yes
+  notify: reload nginx
+

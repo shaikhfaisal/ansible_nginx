@@ -1,0 +1,42 @@
+# {{ ansible_managed }}
+# file: roles/nginx/templates/nginx.conf.j2 
+
+user              {{ nginx_user }};
+worker_processes  {{ nginx_wrk_procs }};
+error_log         /var/log/nginx/error.log;
+pid               /var/run/nginx.pid;
+
+events {
+    worker_connections {{ nginx_wrk_conn }};
+}
+
+http {
+    include           /etc/nginx/mime.types;
+    default_type      application/octet-stream;
+
+    server_tokens     off;
+
+    log_format main   '$remote_addr - [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for" "$http_x_varnish" '
+                      '$request_time $upstream_response_time';
+
+    log_format api   '$remote_addr - [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for" "$http_x_forwarded_from_varnish" '
+                      '$request_time $upstream_response_time';
+
+    access_log        /var/log/nginx/access.log main;
+
+    gzip              on;
+    gzip_comp_level   6;
+    gzip_buffers      16 8k;
+    gzip_proxied      any;
+    gzip_types        text/plain text/css application/json application/javascript application/x-javascript text/javascript;
+
+    sendfile          on;
+    keepalive_timeout 65;
+    ssl_session_cache builtin:1000  shared:SSL:10m;
+
+    include           /etc/nginx/conf.d/*.conf;
+}
