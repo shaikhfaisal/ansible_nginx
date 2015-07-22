@@ -2,7 +2,9 @@ vagrant_up :
 	vagrant up --no-provision
 
 vagrant_provision :
+	ln -s ../ ansible_nginx
 	vagrant provision
+	rm -f ansible_nginx
 
 clean :
 	vagrant destroy
