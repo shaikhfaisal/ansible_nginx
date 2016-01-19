@@ -1,0 +1,446 @@
+FORMAT: 1A
+
+# Lists API
+The list API stores data about customer shopping lists. This API handles lists of lists, 
+an individual list and the items on that list. 
+
+**Note: This api is acessable via: http://api-stg.issa.ents.io/lists** 
+
+# Group Lists
+List related resources of the **Lists API**
+
+## Lists Collection [/list]
+### Retrieve Lists [GET]
++ Response 200 (application/hal+json)
+
+        {
+            "_links": {
+                "self": {
+                    "href": "http://api-stg.issa.ents.io/lists/list/"
+                }
+            },
+            "_embedded": {
+                "lists": [
+                            {
+                                "_links": {
+                                    "self": {
+                                        "href": "http://api-stg.issa.ents.io/lists/list/12345"
+                                    }
+                                },
+                                "id": 12345,
+                                "name": "Weekly Shopping List",
+                                "color": "Blue"
+                            },
+                            {
+                                "_links": {
+                                    "self": {
+                                        "href": "http://api-stg.issa.ents.io/lists/list/54321"
+                                    }
+                                },
+                                "id": 54321,
+                                "name": "Mothers Day Feast",
+                                "color": "grey"
+                            }
+                ]
+            }
+        }
+
+### Create List [POST]
++ Request (application/hal+json)
+
+        { 
+            "name": "Fathers Day List",
+            "color": "Green",
+            "type": "shopping"
+        }
+
++ Response 201 (application/json)
+
+        {
+            "_links": {
+                "self": {
+                    "href": "http://api-stg.issa.ents.io/lists/list/9876"
+                }
+            },
+            "id": 09876,
+            "name": "Fathers Day List",
+            "color": "green",
+            "price": 0,
+            "items": []
+        }
+
+## List [/list/{id}]
+A single list object with all it's items
+
+Approved colors are: 
+
+      | orange       |
+      | pink         |
+      | light_grey   |
+      | light_orange |
+      | light_green  |
+      | green        |
+      | light_blue   |
+      | blue         |
+      | light_pink   |
+      | red          |
+      | grey         |
+
++ Parameters
+    + id (required, number, `09876`) ... Numeric `id` of the list to perform action with.
+
+### Retrieve a List [GET]
++ Response 200 (application/hal+json)
+
+        {
+            "_links": {
+                "self": {
+                    "href": "http://api-stg.issa.ents.io/lists/list/9876"
+                },
+                "items": {
+                    "href": "http://api-stg.issa.ents.io/lists/list/9876/items"
+                },
+                "products": {
+                    "href": "http://api-stg.issa.ents.io/lists/list/9876/products"
+                }
+            },
+            "id": 9876,
+            "name": "Fathers Day List",
+            "color": "Green",
+            "price": 0,
+            "_embedded": {
+                "items": [
+                    {
+                        "_links": {
+                            "self": {
+                                "href": "http://api-stg.issa.ents.io/lists/list/09876/items/1234"
+                            }
+                        },
+                        "id": 1234,
+                        "type": "item",
+                        "term": "Eggs"
+                    },
+                    {
+                        "_links": {
+                            "self": {
+                                "href": "http://api-stg.issa.ents.io/lists/list/09876/items/4321"
+                            }
+                        },
+                        "id": 4321,
+                        "type": "item",
+                        "term": "Bread"
+                    },
+                    {
+                        "_links": {
+                            "self": {
+                                "href": "http://api-stg.issa.ents.io/lists/list/09876/items/0987"
+                            }
+                        },
+                        "id": 1987,
+                        "type": "item",
+                        "term": "Bottled Water"
+                    },
+                    {
+                        "_links": {
+                            "self": {
+                                "href": "http://api-stg.issa.ents.io/lists/list/09876/products/1234"
+                            }
+                        },
+                        "id": 1234,
+                        "term": "goose",
+                        "sku": "0123456789101",
+                        "quantity": 4,
+                        "_embedded": {
+                            "product": {
+                                "sku": 6342634,
+                                "short_description": "JS FROZEN WHOLE GOOSE 5 - 5.99KG",
+                                "description": "JS FROZEN WHOLE GOOSE 5 - 5.99KG",
+                                "own_label": false,
+                                "is_alcohol": false,
+                                "age_restriction": 0,
+                                "unit_size": "5.000",
+                                "unit_retail": "0",
+                                "unit_retail_name": "KG",
+                                "display_category": "",
+                                "vat_percentage": "0.00",
+                                "images": [
+                                    {
+                                        "uri": "http://www.sainsburys.co.uk/wcsstore/ExtendedSitesCatalogAssetStore/images/catalog/productImages/10/0000001230710/0000001230710_L.jpeg",
+                                        "rank": 1,
+                                        "alt_text": "JS FR WL GSE5-5.99KG"
+                                    }
+                                ]
+                            }
+                        }
+                    },
+                    {
+                        "_links": {
+                            "self": {
+                                "href": "http://api-stg.issa.ents.io/lists/list/09876/products/4321"
+                            }
+                        },
+                        "id": 4321,
+                        "term": null,
+                        "sku": "123456789",
+                        "quantity": 1,
+                        "_embedded": {
+                            "product": {
+                                "sku": 123456789,
+                                "short_description": "JS Apples",
+                                "description": "Apples for you to eat",
+                                "own_label": false,
+                                "is_alcohol": false,
+                                "age_restriction": 0,
+                                "unit_size": "5.000",
+                                "unit_retail": "0",
+                                "unit_retail_name": "KG",
+                                "display_category": "",
+                                "vat_percentage": "0.00",
+                                "images": []
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+
+### Edit a List [PATCH]
++ Request (application/hal+json)
+
+        { 
+            "name": "Easter Sunday List",
+            "color": "Purple"
+        }
+        
++ Response 200
+
+        {
+            "_links": {
+                "self": {
+                    "href": "http://api-stg.issa.ents.io/lists/list/9876"
+                },
+                "items": {
+                    "href": "http://api-stg.issa.ents.io/lists/list/9876/items"
+                },
+                "products": {
+                    "href": "http://api-stg.issa.ents.io/lists/list/9876/products"
+                }
+            },
+            "id": 9876,
+            "name": "Easter Sunday List",
+            "color": "Purple"
+        }
+
+### Remove a List [DELETE]
++ Response 204
+
+## Free Text List Items [/list/{id}/items]
+Adding and removing items from a list
+
++ Parameters
+    + id (required, number, `09876`) ... Numeric `id` of the list to perform action on.
+
+### Create List Item [POST]
++ Request (application/hal+json)
+        
+        { 
+            "term": "Eggs"
+        }
+
++ Response 201
+        
+        {
+            "_links": {
+                "self": {
+                    "href": "http://api-stg.issa.ents.io/lists/list/09876/items/1234"
+                }
+            },
+            "id": 1234,
+            "term": "Eggs"
+        }
+
+### Edit List Item [PATCH]
+Two action are available when editing (PATCHING) a list item. Changing it's term (see first request) and converting it to a product list item (second example). 
+
++ Request (application/hal+json)
+        
+        { 
+            "term": "Eggs"
+        }
+
++ Request (application/hal+json)
+        
+        { 
+            "sku": "123456789",
+            "quantity": 4
+        }
+
++ Response 201
+        
+        {
+            "_links": {
+                "self": {
+                    "href": "http://api-stg.issa.ents.io/lists/list/09876/items/1234"
+                }
+            },
+            "id": 1234,
+            "term": "Eggs"
+        }
+
++ Response 201
+        
+        {
+            "_links": {
+                "self": {
+                    "href": "http://api-stg.issa.ents.io/lists/list/09876/product/1234"
+                }
+            },
+            "id": 123121,
+            "term": "Eggs"
+            "_embedded": {
+                "product": {
+                    "sku": 6342634,
+                    "short_description": "Eggs - 5.99KG",
+                    "description": "Eggs5 - 5.99KG",
+                    "own_label": false,
+                    "is_alcohol": false,
+                    "age_restriction": 0,
+                    "unit_size": "5.000",
+                    "unit_retail": "0",
+                    "unit_retail_name": "KG",
+                    "display_category": "",
+                    "vat_percentage": "0.00",
+                    "images": [
+                        {
+                            "uri": "http://www.sainsburys.co.uk/wcsstore/ExtendedSitesCatalogAssetStore/images/catalog/productImages/10/0000001230710/0000001230710_L.jpeg",
+                            "rank": 1,
+                            "alt_text": "JS FR WL GSE5-5.99KG"
+                        }
+                    ]
+                }
+            }
+        }
+
+## Free Text List Item [/list/{listid}/items/{itemid}]
+
++ Parameters
+    + listid (required, number, `09876`) ... Numeric `id` of the list to perform action on.
+    + itemid (required, number, `09876`) ... Numeric `id` of the item to perform action on.
+
+### Remove a List Item [DELETE]
++ Response 204
+
+## Product Linked List Items [/list/{id}/products]
+**Note: Not Currently Implemented** 
+
+Adding and removing detailed product items from a list.
+
+A product linked item is a product from the store catalog, it has extra data like the products image, a name and quantity. 
+
++ Parameters
+    + id (required, number, `09876`) ... Numeric `id` of the list to perform action on.
+
+### Create List Item [POST]
++ Request (application/hal+json)
+        
+        { 
+            "sku": "0123456789101",
+            "quantity": 4,
+            "term": "goose"   
+        }
+
++ Request (application/hal+json)
+        
+        { 
+            "sku": "0123456789101",
+            "quantity": 4
+        }
+
++ Response 201
+        
+        {
+            "_links": {
+                "self": {
+                    "href": "http://api-stg.issa.ents.io/lists/list/09876/products/1234"
+                }
+            },
+            "id": 1234,
+            "term": "goose",
+            "sku": "0123456789101",
+            "quantity": 4,
+            "_embedded": {
+                "product": {
+                    "sku": 6342634,
+                    "short_description": "JS FROZEN WHOLE GOOSE 5 - 5.99KG",
+                    "description": "JS FROZEN WHOLE GOOSE 5 - 5.99KG",
+                    "own_label": false,
+                    "is_alcohol": false,
+                    "age_restriction": 0,
+                    "unit_size": "5.000",
+                    "unit_retail": "0",
+                    "unit_retail_name": "KG",
+                    "display_category": "",
+                    "vat_percentage": "0.00",
+                    "images": [
+                        {
+                            "uri": "http://www.sainsburys.co.uk/wcsstore/ExtendedSitesCatalogAssetStore/images/catalog/productImages/10/0000001230710/0000001230710_L.jpeg",
+                            "rank": 1,
+                            "alt_text": "JS FR WL GSE5-5.99KG"
+                        }
+                    ]
+                }
+            }
+        }
+
+## Product Linked List Item [/list/{listid}/products/{itemid}]
+**Note: Not Currently Implemented** 
++ Parameters
+    + listid (required, number, `09876`) ... Numeric `id` of the list to perform action on.
+    + itemid (required, number, `09876`) ... Numeric `id` of the item to perform action on.
+
+### Edit a List Item [PATCH]
++ Request (application/hal+json)
+        
+        { 
+            "quantity": 10
+        }
+
++ Response 200
+        
+        {
+                "_links": {
+                    "self": {
+                        "href": "http://api-stg.issa.ents.io/lists/list/09876/products/1234"
+                    }
+                },
+                "id": 1234,
+                "term": "goose",
+                "sku": "0123456789101",
+                "quantity": 4,
+                "_embedded": {
+                    "product": {
+                        "sku": 6342634,
+                        "short_description": "JS FROZEN WHOLE GOOSE 5 - 5.99KG",
+                        "description": "JS FROZEN WHOLE GOOSE 5 - 5.99KG",
+                        "own_label": false,
+                        "is_alcohol": false,
+                        "age_restriction": 0,
+                        "unit_size": "5.000",
+                        "unit_retail": "0",
+                        "unit_retail_name": "KG",
+                        "display_category": "",
+                        "vat_percentage": "0.00",
+                        "images": [
+                            {
+                                "uri": "http://www.sainsburys.co.uk/wcsstore/ExtendedSitesCatalogAssetStore/images/catalog/productImages/10/0000001230710/0000001230710_L.jpeg",
+                                "rank": 1,
+                                "alt_text": "JS FR WL GSE5-5.99KG"
+                            }
+                        ]
+                    }
+                }
+            }
++ Response 204
+
+### Remove a List Item [DELETE]
++ Response 204
